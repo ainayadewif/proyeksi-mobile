@@ -12,7 +12,7 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("http://192.168.1.121:8000/api/komoditas")
+    fetch("http://192.168.18.9:8000/api/komoditas")
       .then((response) => response.json())
       .then((json) => {
         setKomoditas(json.data);
