@@ -1,102 +1,88 @@
-import React, { useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { login } from "../src/services/api";
+import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+
+const ORANGE_BG = "#FF7444";
+const ORANGE_BLOB = "#FF5A1F";
+
+export default function SplashOneScreen() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace("/welcome");
+    }, 1300);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <StatusBar style="light" />
+
+      <View style={styles.topCircle} />
+      <View style={styles.leftCircle} />
+
+      <View style={styles.brandWrap}>
+        <View style={styles.logoPlaceholder}> 
+          <Image
+            source={require("../assets/images/logo_kotaSemarang.png")}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </View>
+        <Text style={styles.brandText}>SIKETAN</Text>
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: ORANGE_BG,
     justifyContent: "center",
-    padding: 24,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 24,
-    textAlign: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  button: {
-    backgroundColor: "#FF7444",
-    padding: 14,
-    borderRadius: 8,
     alignItems: "center",
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+  topCircle: {
+    position: "absolute",
+    right: -45,
+    top: -28,
+    width: 124,
+    height: 124,
+    borderRadius: 62,
+    backgroundColor: ORANGE_BLOB,
+  },
+  leftCircle: {
+    position: "absolute",
+    left: -40,
+    top: "28%",
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    backgroundColor: ORANGE_BLOB,
+  },
+  brandWrap: {
+    alignItems: "center",
+    gap: 14,
+    marginTop: 46,
+  },
+  logoPlaceholder: {
+    width: 46,
+    height: 56,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  logoText: {
+    color: "#FFFFFF",
+    fontSize: 10,
+    fontWeight: "700",
+    letterSpacing: 0.3,
+  },
+  brandText: {
+    color: "#FFFFFF",
+    fontSize: 31,
+    fontFamily: "Poppins_800ExtraBold",
+    letterSpacing: 0.5,
   },
 });
 
-const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Email dan password wajib diisi");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const res = await login(email, password);
-      console.log("Login sukses:", res);
-      Alert.alert("Success", "Login berhasil");
-    } catch (error) {
-      Alert.alert("Gagal", "Email atau password salah");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-
-      <TextInput
-        placeholder="Email"
-        placeholderTextColor={"#a3a3a3"}
-        keyboardType="email-address"
-        style={styles.input}
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
-
-      <TextInput
-        placeholder="Password"
-        placeholderTextColor={"#a3a3a3"}
-        style={styles.input}
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>
-          {loading ? "Loading..." : "Login"}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-export default LoginScreen;
