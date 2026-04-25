@@ -1,19 +1,24 @@
-import { router } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import type { RootStackParamList } from "../navigation/types";
 
 const ORANGE_BG = "#FF7444";
 const ORANGE_BLOB = "#FF5A1F";
 
-export default function SplashOneScreen() {
+export default function IndexScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/welcome");
+      navigation.replace("Welcome");
     }, 1300);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -23,10 +28,10 @@ export default function SplashOneScreen() {
       <View style={styles.leftCircle} />
 
       <View style={styles.brandWrap}>
-        <View style={styles.logoPlaceholder}> 
+        <View style={styles.logoPlaceholder}>
           <Image
-            source={require("../assets/images/logo_kotaSemarang.png")}
-            style={{ width: '100%', height: '100%' }}
+            source={require("../../assets/images/logo_kotaSemarang.png")}
+            style={{ width: "100%", height: "100%" }}
           />
         </View>
         <Text style={styles.brandText}>SIKETAN</Text>
@@ -72,12 +77,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "transparent",
   },
-  logoText: {
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontWeight: "700",
-    letterSpacing: 0.3,
-  },
   brandText: {
     color: "#FFFFFF",
     fontSize: 31,
@@ -85,4 +84,3 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 });
-

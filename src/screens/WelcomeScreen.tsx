@@ -1,13 +1,18 @@
-import { router } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import type { RootStackParamList } from "../navigation/types";
 
 const ORANGE_BG = "#FF7444";
 const ORANGE_BLOB = "#FF5A1F";
 const SOFT_BG = "#F2F2F2";
 
 export default function WelcomeScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -19,8 +24,8 @@ export default function WelcomeScreen() {
         <View style={styles.brandWrap}>
           <View style={styles.logoPlaceholder}>
             <Image
-              source={require("../assets/images/logo_kotaSemarang.png")}
-              style={{ width: '100%', height: '100%' }}
+              source={require("../../assets/images/logo_kotaSemarang.png")}
+              style={{ width: "100%", height: "100%" }}
             />
           </View>
           <Text style={styles.brandText}>SIKETAN</Text>
@@ -35,7 +40,10 @@ export default function WelcomeScreen() {
 
         <View style={styles.continueRow}>
           <Text style={styles.continueLabel}>Continue</Text>
-          <Pressable style={styles.continueButton} onPress={() => router.replace("/login")}>
+          <Pressable
+            style={styles.continueButton}
+            onPress={() => navigation.replace("Login")}
+          >
             <Text style={styles.continueArrow}>{">"}</Text>
           </Pressable>
         </View>
@@ -91,12 +99,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent",
-  },
-  logoText: {
-    color: "#FFFFFF",
-    fontSize: 10,
-    fontFamily: "Poppins_400Regular",
-    letterSpacing: 0.3,
   },
   brandText: {
     color: "#FFFFFF",
