@@ -27,18 +27,23 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    if (!email || !password) {
+    const normalizedEmail = email.trim();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedEmail || !normalizedPassword) {
       Alert.alert("Error", "Email dan password wajib diisi");
       return;
     }
 
     try {
       setLoading(true);
-      const res = await login(email, password);
+      const res = await login(normalizedEmail, normalizedPassword);
       console.log("Login sukses:", res);
       Alert.alert("Success", "Login berhasil");
-    } catch {
-      Alert.alert("Gagal", "Email atau password salah");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Terjadi kesalahan saat login";
+      Alert.alert("Gagal", message);
     } finally {
       setLoading(false);
     }

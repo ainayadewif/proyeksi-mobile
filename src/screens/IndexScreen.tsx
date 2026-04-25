@@ -7,6 +7,7 @@ import type { RootStackParamList } from "../navigation/types";
 
 const ORANGE_BG = "#FF7444";
 const ORANGE_BLOB = "#FF5A1F";
+const SPLASH_DELAY_MS = 2800;
 
 export default function IndexScreen() {
   const navigation =
@@ -15,7 +16,7 @@ export default function IndexScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace("Welcome");
-    }, 1300);
+    }, SPLASH_DELAY_MS);
 
     return () => clearTimeout(timer);
   }, [navigation]);

@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.1.124:8000/api"; // ganti IP backend kamu
+const BASE_URL = "http://192.168.214.172/api"; // ganti IP backend kamu
 
 export const login = async (email: string, password: string) => {
   const response = await fetch(`${BASE_URL}/login`, {
@@ -10,9 +10,11 @@ export const login = async (email: string, password: string) => {
     body: JSON.stringify({ email, password }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error("Login gagal");
+    throw new Error(data?.message || "Login gagal");
   }
 
-  return response.json();
+  return data;
 };
