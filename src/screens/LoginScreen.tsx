@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Svg, { Path } from "react-native-svg";
 import { login } from "../services/api";
 
 const ORANGE_BG = "#FF7444";
@@ -38,7 +39,6 @@ export default function LoginScreen() {
     try {
       setLoading(true);
       const res = await login(normalizedEmail, normalizedPassword);
-      console.log("Login sukses:", res);
       Alert.alert("Success", "Login berhasil");
     } catch (err: unknown) {
       const message =
@@ -53,15 +53,17 @@ export default function LoginScreen() {
     <KeyboardAvoidingView
       style={styles.keyboardContainer}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
     >
       <StatusBar style="light" />
+
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.container}>
+          
+          {/* ORANGE TOP */}
           <View style={styles.orangeTop}>
             <View style={styles.topCircle} />
             <View style={styles.leftCircle} />
@@ -71,12 +73,29 @@ export default function LoginScreen() {
                 <Image
                   source={require("../../assets/images/logo_kotaSemarang.png")}
                   style={{ width: "100%", height: "100%" }}
+                  resizeMode="contain"
                 />
               </View>
               <Text style={styles.brandText}>SIKETAN</Text>
             </View>
+
+            {/* WAVE SAMA PERSIS DENGAN WELCOME */}
+            <View style={styles.waveWrapper}>
+              <Svg
+                height="100%"
+                width="100%"
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none"
+              >
+                <Path
+                  fill={SOFT_BG}
+                  d="M0,192L60,170.7C120,149,240,107,360,106.7C480,107,600,149,720,181.3C840,213,960,270,1080,290C1200,310,1320,280,1380,260L1440,240V320H0Z"
+                />
+              </Svg>
+            </View>
           </View>
 
+          {/* GRAY BOTTOM */}
           <View style={styles.grayBottom}>
             <Text style={styles.title}>Login</Text>
 
@@ -104,10 +123,7 @@ export default function LoginScreen() {
                 placeholderTextColor="#969696"
                 style={styles.input}
               />
-              <Pressable
-                onPress={() => setShowPassword((prev) => !prev)}
-                hitSlop={10}
-              >
+              <Pressable onPress={() => setShowPassword((prev) => !prev)}>
                 <Ionicons
                   name={showPassword ? "eye-off" : "eye"}
                   size={22}
@@ -127,6 +143,7 @@ export default function LoginScreen() {
               </Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -145,19 +162,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: ORANGE_BG,
   },
+
+  /* SAMA PERSIS DENGAN WELCOME */
   orangeTop: {
-    flex: 38,
+    flex: 56,
     backgroundColor: ORANGE_BG,
     alignItems: "center",
     justifyContent: "center",
   },
+
   grayBottom: {
-    flex: 62,
+    flex: 44,
     backgroundColor: SOFT_BG,
     paddingHorizontal: 26,
     paddingTop: 46,
-    paddingBottom: 32,
+    paddingBottom: 28,
   },
+
+  waveWrapper: {
+    position: "absolute",
+    bottom: -1,
+    left: 0,
+    right: 0,
+    height: 120,
+  },
+
   topCircle: {
     position: "absolute",
     right: -45,
@@ -167,6 +196,7 @@ const styles = StyleSheet.create({
     borderRadius: 62,
     backgroundColor: ORANGE_BLOB,
   },
+
   leftCircle: {
     position: "absolute",
     left: -45,
@@ -176,41 +206,47 @@ const styles = StyleSheet.create({
     borderRadius: 62,
     backgroundColor: ORANGE_BLOB,
   },
+
   brandWrap: {
     alignItems: "center",
-    gap: 12,
-    marginTop: 18,
+    gap: 14,
+    marginTop: 46,
   },
+
   logoPlaceholder: {
-    width: 46,
-    height: 56,
+    width: 80,
+    height: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "transparent",
   },
+
   brandText: {
     color: "#FFFFFF",
     fontSize: 31,
     fontFamily: "Poppins_800ExtraBold",
     letterSpacing: 0.5,
   },
+
   title: {
     color: "#2F2F2F",
     fontSize: 37,
     fontFamily: "Poppins_800ExtraBold",
     marginBottom: 28,
   },
+
   label: {
     color: "#575757",
     fontSize: 19,
     fontFamily: "Poppins_500Medium",
     marginBottom: 4,
   },
+
   inputRow: {
     minHeight: 40,
     flexDirection: "row",
     alignItems: "center",
   },
+
   input: {
     flex: 1,
     color: "#2F2F2F",
@@ -218,11 +254,13 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     paddingVertical: 6,
   },
+
   inputUnderline: {
     height: 1.8,
     backgroundColor: ORANGE_BG,
     marginBottom: 18,
   },
+
   loginButton: {
     marginTop: 26,
     borderRadius: 10,
@@ -230,16 +268,12 @@ const styles = StyleSheet.create({
     backgroundColor: ORANGE_BG,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000000",
-    shadowOpacity: 0.14,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
     elevation: 3,
   },
+
   loginButtonText: {
     color: "#FFFFFF",
     fontSize: 22,
     fontFamily: "Poppins_700Bold",
-    letterSpacing: 0.2,
   },
 });
