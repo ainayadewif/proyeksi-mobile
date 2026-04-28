@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
 
   brandWrap: {
     alignItems: "center",
-    gap: 14,
+    gap: 0,
     marginTop: 46,
   },
 
