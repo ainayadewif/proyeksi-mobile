@@ -25,17 +25,19 @@ export default function IndexScreen() {
     <View style={styles.container}>
       <StatusBar style="light" />
 
-      <View style={styles.topCircle} />
-      <View style={styles.leftCircle} />
+      <View style={styles.orangeTop}>
+        <View style={styles.topCircle} />
+        <View style={styles.leftCircle} />
 
-      <View style={styles.brandWrap}>
-        <View style={styles.logoPlaceholder}>
-          <Image
-            source={require("../../assets/images/logo_kotaSemarang.png")}
-            style={{ width: "100%", height: "100%" }}
-          />
+        <View style={styles.brandWrap}>
+          <View style={styles.logoPlaceholder}>
+            <Image
+              source={require("../../assets/images/logo_kotaSemarang.png")}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </View>
+          <Text style={styles.brandText}>SIKETAN</Text>
         </View>
-        <Text style={styles.brandText}>SIKETAN</Text>
       </View>
     </View>
   );
@@ -45,8 +47,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ORANGE_BG,
-    justifyContent: "center",
+  },
+  orangeTop: {
+    flex: 1,
+    backgroundColor: ORANGE_BG,
     alignItems: "center",
+    justifyContent: "center",
   },
   topCircle: {
     position: "absolute",
@@ -58,14 +64,14 @@ const styles = StyleSheet.create({
     backgroundColor: ORANGE_BLOB,
   },
   leftCircle: {
-    position: "absolute",
-    left: -40,
-    top: "28%",
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    backgroundColor: ORANGE_BLOB,
-  },
+  position: "absolute",
+  left: -45,
+  bottom: 40, // <- ini yang menyamakan dengan Welcome
+  width: 124,
+  height: 124,
+  borderRadius: 62,
+  backgroundColor: ORANGE_BLOB,
+},
   brandWrap: {
     alignItems: "center",
     gap: 14,

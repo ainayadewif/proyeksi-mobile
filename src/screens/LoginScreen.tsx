@@ -12,6 +12,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
   View,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
@@ -38,7 +40,7 @@ export default function LoginScreen() {
 
     try {
       setLoading(true);
-      const res = await login(normalizedEmail, normalizedPassword);
+      await login(normalizedEmail, normalizedPassword);
       Alert.alert("Success", "Login berhasil");
     } catch (err: unknown) {
       const message =
@@ -50,53 +52,52 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.keyboardContainer}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+    <View style={styles.container}>
       <StatusBar style="light" />
 
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.container}>
-          
-          {/* ORANGE TOP */}
-          <View style={styles.orangeTop}>
-            <View style={styles.topCircle} />
-            <View style={styles.leftCircle} />
+      {/* ORANGE TOP */}
+      <View style={styles.orangeTop}>
+        <View style={styles.topCircle} />
+        <View style={styles.leftCircle} />
 
-            <View style={styles.brandWrap}>
-              <View style={styles.logoPlaceholder}>
-                <Image
-                  source={require("../../assets/images/logo_kotaSemarang.png")}
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="contain"
-                />
-              </View>
-              <Text style={styles.brandText}>SIKETAN</Text>
-            </View>
-
-            {/* WAVE SAMA PERSIS DENGAN WELCOME */}
-            <View style={styles.waveWrapper}>
-              <Svg
-                height="100%"
-                width="100%"
-                viewBox="0 0 1440 320"
-                preserveAspectRatio="none"
-              >
-                <Path
-                  fill={SOFT_BG}
-                  d="M0,192L60,170.7C120,149,240,107,360,106.7C480,107,600,149,720,181.3C840,213,960,270,1080,290C1200,310,1320,280,1380,260L1440,240V320H0Z"
-                />
-              </Svg>
-            </View>
+        <View style={styles.brandWrap}>
+          <View style={styles.logoPlaceholder}>
+            <Image
+              source={require("../../assets/images/logo_kotaSemarang.png")}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="contain"
+            />
           </View>
+          <Text style={styles.brandText}>SIKETAN</Text>
+        </View>
 
-          {/* GRAY BOTTOM */}
-          <View style={styles.grayBottom}>
+        <View style={styles.waveWrapper}>
+          <Svg
+            height="100%"
+            width="100%"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+          >
+            <Path
+              fill={SOFT_BG}
+              d="M0,192L60,170.7C120,149,240,107,360,106.7C480,107,600,149,720,181.3C840,213,960,270,1080,290C1200,310,1320,280,1380,260L1440,240V320H0Z"
+            />
+          </Svg>
+        </View>
+      </View>
+
+      {/* FORM AREA */}
+      <KeyboardAvoidingView
+        style={{ flex: 44 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={20}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView
+            contentContainerStyle={styles.grayBottom}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
             <Text style={styles.title}>Login</Text>
 
             <Text style={styles.label}>Email</Text>
@@ -142,40 +143,31 @@ export default function LoginScreen() {
                 {loading ? "Loading..." : "Login"}
               </Text>
             </TouchableOpacity>
-          </View>
-
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  keyboardContainer: {
-    flex: 1,
-    backgroundColor: SOFT_BG,
-  },
-  scrollContent: {
-    flexGrow: 1,
-  },
   container: {
     flex: 1,
     backgroundColor: ORANGE_BG,
   },
 
-  /* SAMA PERSIS DENGAN WELCOME */
   orangeTop: {
-    flex: 56,
+    flex: 46,
     backgroundColor: ORANGE_BG,
     alignItems: "center",
     justifyContent: "center",
   },
 
   grayBottom: {
-    flex: 44,
+    flexGrow: 1,
     backgroundColor: SOFT_BG,
     paddingHorizontal: 26,
-    paddingTop: 46,
+    paddingTop: 2,
     paddingBottom: 28,
   },
 
@@ -200,7 +192,7 @@ const styles = StyleSheet.create({
   leftCircle: {
     position: "absolute",
     left: -45,
-    bottom: -28,
+    bottom: 40,
     width: 124,
     height: 124,
     borderRadius: 62,
@@ -209,8 +201,7 @@ const styles = StyleSheet.create({
 
   brandWrap: {
     alignItems: "center",
-    gap: 0,
-    marginTop: 46,
+    marginTop: 35,
   },
 
   logoPlaceholder: {
